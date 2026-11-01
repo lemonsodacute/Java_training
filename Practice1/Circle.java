@@ -2,7 +2,6 @@ public class Circle extends Shape {
     private double radius;
 
     public Circle(double radius) {
-        // Chiều rộng và chiều cao của hình tròn bằng đường kính.
         super(radius * 2, radius * 2);
         this.radius = radius;
     }

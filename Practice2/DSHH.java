@@ -1,4 +1,3 @@
-// Danh sách hàng hóa sử dụng mảng theo yêu cầu bài tập.
 public class DSHH {
     private Goods[] list = new Goods[100];
     private int count = 0;

@@ -22,7 +22,6 @@ public abstract class Goods {
     public int getQuantity() { return quantity; }
     public double getUnitPrice() { return unitPrice; }
 
-    // Lớp con xác định mức thuế VAT và cách đánh giá.
     public abstract double getVatRate();
     public abstract String evaluate();
     public abstract String getType();
