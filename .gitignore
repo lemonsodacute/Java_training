@@ -1,0 +1,10 @@
+*.class
+.vscode/
+.idea/
+.DS_Store
+out/
+bin/
+*.log
+*.tmp
+*.temp
+hs_err_pid*
