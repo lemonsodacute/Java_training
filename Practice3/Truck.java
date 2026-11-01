@@ -5,7 +5,7 @@ public class Truck extends Vehicle {
                  Owner owner, double tonnage) {
         super(number, manufacturer, year, color, owner);
         if (!Double.isFinite(tonnage) || tonnage < 0) {
-            throw new IllegalArgumentException("Trọng tải phải là số hữu hạn >= 0");
+            throw new IllegalArgumentException("Load capacity must be a finite, non-negative number");
         }
         this.tonnage = tonnage;
     }
@@ -13,8 +13,8 @@ public class Truck extends Vehicle {
     public double getTonnage() { return tonnage; }
 
     @Override
-    public String getType() { return "Xe tải"; }
+    public String getType() { return "Truck"; }
 
     @Override
-    public String getExtraInfo() { return "Trọng tải: " + tonnage + " tấn"; }
+    public String getExtraInfo() { return "Load capacity: " + tonnage + " tons"; }
 }

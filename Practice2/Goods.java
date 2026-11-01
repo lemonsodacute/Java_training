@@ -6,10 +6,10 @@ public abstract class Goods {
 
     public Goods(String code, String name, int quantity, double unitPrice) {
         if (code == null || code.trim().isEmpty() || name == null || name.trim().isEmpty()) {
-            throw new IllegalArgumentException("Mã hàng và tên hàng không được để trống");
+            throw new IllegalArgumentException("Code and name must not be blank");
         }
         if (quantity < 0 || !Double.isFinite(unitPrice) || unitPrice < 0) {
-            throw new IllegalArgumentException("Số lượng và đơn giá phải >= 0, đơn giá phải hữu hạn");
+            throw new IllegalArgumentException("Quantity and unit price must be non-negative; unit price must be finite");
         }
         this.code = code.trim();
         this.name = name.trim();
@@ -32,7 +32,7 @@ public abstract class Goods {
 
     @Override
     public String toString() {
-        return code + " | " + name + " | Số lượng: " + quantity
-                + " | Đơn giá: " + unitPrice + " | Loại: " + getType();
+        return code + " | " + name + " | Quantity: " + quantity
+                + " | Unit price: " + unitPrice + " | Type: " + getType();
     }
 }

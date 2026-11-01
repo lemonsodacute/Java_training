@@ -6,13 +6,13 @@ public class VehicleManager {
 
     public boolean add(Vehicle vehicle) {
         if (vehicle == null) {
-            throw new IllegalArgumentException("Phương tiện không được null");
+            throw new IllegalArgumentException("Vehicle must not be null");
         }
         if (findByNumber(vehicle.getNumber()) != null) return false;
         for (Vehicle v : list) {
             if (v.getOwner().getIdentityNumber().equals(vehicle.getOwner().getIdentityNumber())) {
                 if (!v.getOwner().sameInfo(vehicle.getOwner())) {
-                    throw new IllegalArgumentException("CMND/CCCD đã thuộc chủ xe khác");
+                    throw new IllegalArgumentException("Identity number is already registered to a different owner");
                 }
                 vehicle.setOwner(v.getOwner()); // Một người có thể sở hữu nhiều xe.
                 break;
@@ -40,7 +40,7 @@ public class VehicleManager {
                 found = true;
             }
         }
-        if (!found) System.out.println("Không tìm thấy xe của chủ sở hữu này");
+        if (!found) System.out.println("No vehicles found for this owner");
     }
 
     public int deleteByManufacturer(String manufacturer) {
@@ -71,12 +71,12 @@ public class VehicleManager {
             if (countByManufacturer(manufacturer) > max) max = countByManufacturer(manufacturer);
         }
         if (max == 0) {
-            System.out.println("Chưa có xe");
+            System.out.println("No vehicles available");
             return;
         }
         for (String manufacturer : manufacturers) {
             if (countByManufacturer(manufacturer) == max) {
-                System.out.println(manufacturer + ": " + max + " xe");
+                System.out.println(manufacturer + " - Vehicle count: " + max);
             }
         }
     }
@@ -94,7 +94,7 @@ public class VehicleManager {
         }
         for (String maker : sorted) {
             int count = countByManufacturer(maker);
-            System.out.println(maker + ": " + count + " xe");
+            System.out.println(maker + " - Vehicle count: " + count);
             for (Vehicle v : list) {
                 if (v.getManufacturer().equalsIgnoreCase(maker)) System.out.println("  " + v);
             }
@@ -102,18 +102,18 @@ public class VehicleManager {
     }
 
     public void showStatistics() {
-        String[] types = {"Ô tô", "Xe máy", "Xe tải"};
+        String[] types = {"Car", "Motorcycle", "Truck"};
         for (String type : types) {
             int count = 0;
             for (Vehicle v : list) {
                 if (v.getType().equals(type)) count++;
             }
-            System.out.println(type + ": " + count + " xe");
+            System.out.println(type + " - Vehicle count: " + count);
         }
     }
 
     public void showAll() {
-        if (list.isEmpty()) System.out.println("Chưa có xe");
+        if (list.isEmpty()) System.out.println("No vehicles available");
         for (Vehicle v : list) System.out.println(v);
     }
 }

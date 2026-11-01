@@ -10,19 +10,19 @@ public abstract class Vehicle {
 
     public Vehicle(String number, String manufacturer, int year, String color, Owner owner) {
         if (number == null || number.trim().length() != 5) {
-            throw new IllegalArgumentException("Biển số phải đúng 5 ký tự");
+            throw new IllegalArgumentException("License plate must contain exactly 5 characters");
         }
         if (manufacturer == null || !(manufacturer.trim().equalsIgnoreCase("Honda")
                 || manufacturer.trim().equalsIgnoreCase("Yamaha")
                 || manufacturer.trim().equalsIgnoreCase("Toyota")
                 || manufacturer.trim().equalsIgnoreCase("Suzuki"))) {
-            throw new IllegalArgumentException("Hãng xe: Honda, Yamaha, Toyota, Suzuki");
+            throw new IllegalArgumentException("Manufacturer must be Honda, Yamaha, Toyota or Suzuki");
         }
         if (year <= 2000 || year > Year.now().getValue()) {
-            throw new IllegalArgumentException("Năm sản xuất phải > 2000 và <= năm hiện tại");
+            throw new IllegalArgumentException("Year must be after 2000 and no later than the current year");
         }
         if (color == null || color.trim().isEmpty() || owner == null) {
-            throw new IllegalArgumentException("Màu xe và chủ xe không được thiếu");
+            throw new IllegalArgumentException("Color and owner are required");
         }
         this.number = number.trim().toUpperCase(Locale.ROOT);
         this.manufacturer = manufacturer.trim();
@@ -37,7 +37,7 @@ public abstract class Vehicle {
     public String getColor() { return color; }
     public Owner getOwner() { return owner; }
     public void setOwner(Owner owner) {
-        if (owner == null) throw new IllegalArgumentException("Chủ xe không được null");
+        if (owner == null) throw new IllegalArgumentException("Owner must not be null");
         this.owner = owner;
     }
 
@@ -47,6 +47,6 @@ public abstract class Vehicle {
     @Override
     public String toString() {
         return getType() + " | " + number + " | " + manufacturer + " | " + year
-                + " | " + color + " | " + getExtraInfo() + " | Chủ xe: " + owner;
+                + " | " + color + " | " + getExtraInfo() + " | Owner: " + owner;
     }
 }

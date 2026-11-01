@@ -6,7 +6,7 @@ public class Car extends Vehicle {
                Owner owner, int seats, String engineType) {
         super(number, manufacturer, year, color, owner);
         if (seats <= 0 || engineType == null || engineType.trim().isEmpty()) {
-            throw new IllegalArgumentException("Số ghế hoặc loại động cơ không hợp lệ");
+            throw new IllegalArgumentException("Seat count must be positive and engine type must not be blank");
         }
         this.seats = seats;
         this.engineType = engineType.trim();
@@ -16,8 +16,8 @@ public class Car extends Vehicle {
     public String getEngineType() { return engineType; }
 
     @Override
-    public String getType() { return "Ô tô"; }
+    public String getType() { return "Car"; }
 
     @Override
-    public String getExtraInfo() { return seats + " chỗ | Động cơ: " + engineType; }
+    public String getExtraInfo() { return seats + " seats | Engine: " + engineType; }
 }

@@ -8,70 +8,70 @@ public class Main {
         VehicleManager manager = new VehicleManager();
         int choice = -1;
         do {
-            System.out.println("\n=== QUẢN LÝ PHƯƠNG TIỆN ===");
-            System.out.println("1. Thêm phương tiện");
-            System.out.println("2. Tìm theo biển số");
-            System.out.println("3. Tìm xe theo CMND/CCCD chủ xe");
-            System.out.println("4. Xóa xe theo hãng sản xuất");
-            System.out.println("5. Hãng có nhiều xe nhất");
-            System.out.println("6. Sắp xếp hãng theo số lượng xe giảm dần");
-            System.out.println("7. Thống kê từng loại xe");
-            System.out.println("8. Xem tất cả xe");
-            System.out.println("0. Thoát");
+            System.out.println("\n=== VEHICLE MANAGEMENT ===");
+            System.out.println("1. Add a vehicle");
+            System.out.println("2. Find by license plate");
+            System.out.println("3. Find vehicles by owner ID");
+            System.out.println("4. Delete vehicles by manufacturer");
+            System.out.println("5. Show manufacturers with the most vehicles");
+            System.out.println("6. Sort manufacturers by vehicle count (descending)");
+            System.out.println("7. Show vehicle counts by type");
+            System.out.println("8. View all vehicles");
+            System.out.println("0. Exit");
             try {
-                choice = readInt("Chọn: ");
+                choice = readInt("Choose an option: ");
                 switch (choice) {
                     case 1:
                         Vehicle v = inputVehicle();
-                        System.out.println(manager.add(v) ? "Thêm thành công" : "Biển số đã tồn tại");
+                        System.out.println(manager.add(v) ? "Added successfully" : "License plate already exists");
                         break;
                     case 2:
-                        Vehicle found = manager.findByNumber(readText("Biển số: "));
-                        System.out.println(found == null ? "Không tìm thấy" : found);
+                        Vehicle found = manager.findByNumber(readText("License plate: "));
+                        System.out.println(found == null ? "Not found" : found);
                         break;
-                    case 3: manager.findByOwnerId(readText("CMND/CCCD: ")); break;
+                    case 3: manager.findByOwnerId(readText("Owner ID: ")); break;
                     case 4:
-                        int removed = manager.deleteByManufacturer(readText("Hãng sản xuất: "));
-                        System.out.println("Đã xóa " + removed + " xe");
+                        int removed = manager.deleteByManufacturer(readText("Manufacturer: "));
+                        System.out.println("Vehicles removed: " + removed);
                         break;
                     case 5: manager.showMostPopularManufacturer(); break;
                     case 6: manager.showSortedByManufacturerCount(); break;
                     case 7: manager.showStatistics(); break;
                     case 8: manager.showAll(); break;
-                    case 0: System.out.println("Tạm biệt!"); break;
-                    default: System.out.println("Lựa chọn không hợp lệ");
+                    case 0: System.out.println("Goodbye!"); break;
+                    default: System.out.println("Invalid choice");
                 }
             } catch (IllegalArgumentException e) {
-                System.out.println("Dữ liệu sai: " + e.getMessage());
+                System.out.println("Invalid data: " + e.getMessage());
             } catch (java.util.NoSuchElementException e) {
-                System.out.println("\nĐã hết dữ liệu nhập. Tạm biệt!");
+                System.out.println("\nEnd of input. Goodbye!");
                 return;
             }
         } while (choice != 0);
     }
 
     static Vehicle inputVehicle() {
-        System.out.println("1. Ô tô | 2. Xe máy | 3. Xe tải");
-        int type = readInt("Loại phương tiện: ");
-        if (type < 1 || type > 3) throw new IllegalArgumentException("Loại xe không hợp lệ");
-        String number = readText("Biển số (5 ký tự): ");
-        String maker = readText("Hãng (Honda/Yamaha/Toyota/Suzuki): ");
-        int year = readInt("Năm sản xuất: ");
-        String color = readText("Màu xe: ");
-        String id = readText("CMND/CCCD (12 số): ");
-        String fullName = readText("Tên chủ xe: ");
-        String email = readText("Địa chỉ thư điện tử: ");
+        System.out.println("1. Car | 2. Motorcycle | 3. Truck");
+        int type = readInt("Vehicle type: ");
+        if (type < 1 || type > 3) throw new IllegalArgumentException("Invalid vehicle type");
+        String number = readText("License plate (5 characters): ");
+        String maker = readText("Manufacturer (Honda/Yamaha/Toyota/Suzuki): ");
+        int year = readInt("Year of manufacture: ");
+        String color = readText("Color: ");
+        String id = readText("Owner ID (12 digits): ");
+        String fullName = readText("Owner name: ");
+        String email = readText("Email: ");
         Owner owner = new Owner(id, fullName, email);
 
         if (type == 1) {
-            int seats = readInt("Số chỗ ngồi: ");
-            String engine = readText("Loại động cơ: ");
+            int seats = readInt("Number of seats: ");
+            String engine = readText("Engine type: ");
             return new Car(number, maker, year, color, owner, seats, engine);
         } else if (type == 2) {
-            double capacity = readDouble("Dung tích (cc): ");
+            double capacity = readDouble("Engine capacity (cc): ");
             return new Motorcycle(number, maker, year, color, owner, capacity);
         } else {
-            double tonnage = readDouble("Trọng tải (tấn): ");
+            double tonnage = readDouble("Load capacity (tons): ");
             return new Truck(number, maker, year, color, owner, tonnage);
         }
     }
@@ -84,7 +84,7 @@ public class Main {
     static int readInt(String message) {
         while (true) {
             try { return Integer.parseInt(readText(message)); }
-            catch (NumberFormatException e) { System.out.println("Nhập số nguyên hợp lệ"); }
+            catch (NumberFormatException e) { System.out.println("Please enter an integer"); }
         }
     }
 
@@ -95,7 +95,7 @@ public class Main {
                 if (!Double.isFinite(value)) throw new NumberFormatException();
                 return value;
             } catch (NumberFormatException e) {
-                System.out.println("Nhập số hữu hạn hợp lệ");
+                System.out.println("Please enter a finite number");
             }
         }
     }

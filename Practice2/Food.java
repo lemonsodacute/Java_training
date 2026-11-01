@@ -9,10 +9,10 @@ public class Food extends Goods {
                 LocalDate manufactureDate, LocalDate expiryDate, String supplier) {
         super(code, name, quantity, unitPrice);
         if (manufactureDate == null || expiryDate == null || expiryDate.isBefore(manufactureDate)) {
-            throw new IllegalArgumentException("Hạn sử dụng phải >= ngày sản xuất");
+            throw new IllegalArgumentException("Expiry date must be on or after the manufacture date");
         }
         if (supplier == null || supplier.trim().isEmpty()) {
-            throw new IllegalArgumentException("Nhà cung cấp không được để trống");
+            throw new IllegalArgumentException("Supplier must not be blank");
         }
         this.manufactureDate = manufactureDate;
         this.expiryDate = expiryDate;
@@ -24,7 +24,7 @@ public class Food extends Goods {
     public String getSupplier() { return supplier; }
 
     @Override
-    public String getType() { return "Thực phẩm"; }
+    public String getType() { return "Food"; }
 
     @Override
     public double getVatRate() { return 0.05; }
@@ -32,14 +32,14 @@ public class Food extends Goods {
     @Override
     public String evaluate() {
         if (getQuantity() > 0 && expiryDate.isBefore(LocalDate.now())) {
-            return "Khó bán (còn hàng nhưng đã hết hạn)";
+            return "Hard to sell (expired items still in stock)";
         }
-        return "Chưa đánh giá";
+        return "Not evaluated";
     }
 
     @Override
     public String toString() {
-        return super.toString() + " | Ngày sản xuất: " + manufactureDate
-                + " | Hạn sử dụng: " + expiryDate + " | Nhà cung cấp: " + supplier;
+        return super.toString() + " | Manufacture date: " + manufactureDate
+                + " | Expiry date: " + expiryDate + " | Supplier: " + supplier;
     }
 }

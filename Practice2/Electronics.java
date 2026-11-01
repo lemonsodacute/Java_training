@@ -6,7 +6,7 @@ public class Electronics extends Goods {
                        int warrantyMonths, double powerKW) {
         super(code, name, quantity, unitPrice);
         if (warrantyMonths < 0 || !Double.isFinite(powerKW) || powerKW < 0) {
-            throw new IllegalArgumentException("Bảo hành và công suất phải >= 0, công suất phải hữu hạn");
+            throw new IllegalArgumentException("Warranty and power must be non-negative; power must be finite");
         }
         this.warrantyMonths = warrantyMonths;
         this.powerKW = powerKW;
@@ -16,7 +16,7 @@ public class Electronics extends Goods {
     public double getPowerKW() { return powerKW; }
 
     @Override
-    public String getType() { return "Điện máy"; }
+    public String getType() { return "Electronics"; }
 
     @Override
     public double getVatRate() { return 0.10; }
@@ -24,14 +24,14 @@ public class Electronics extends Goods {
     @Override
     public String evaluate() {
         if (getQuantity() < 3) {
-            return "Được coi là đã bán (tồn kho < 3)";
+            return "Considered sold (stock < 3)";
         }
-        return "Chưa đánh giá";
+        return "Not evaluated";
     }
 
     @Override
     public String toString() {
-        return super.toString() + " | Bảo hành: " + warrantyMonths
-                + " tháng | Công suất: " + powerKW + " kW";
+        return super.toString() + " | Warranty: " + warrantyMonths
+                + " months | Power: " + powerKW + " kW";
     }
 }
