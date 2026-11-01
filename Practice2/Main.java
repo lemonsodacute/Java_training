@@ -2,61 +2,62 @@ import java.time.LocalDate;
 import java.util.Scanner;
 
 public class Main {
-    static Scanner sc = new Scanner(System.in);
+    static Scanner sc = new Scanner(System.in, "UTF-8");
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws java.io.UnsupportedEncodingException {
+        System.setOut(new java.io.PrintStream(System.out, true, "UTF-8"));
         DSHH ds = new DSHH();
         int choice = -1;
         do {
-            System.out.println("\n=== QUAN LY HANG HOA ===");
-            System.out.println("1. Them hang hoa");
-            System.out.println("2. Xem danh sach");
-            System.out.println("3. Thong ke ton kho va VAT");
-            System.out.println("4. Danh gia kha nang ban");
-            System.out.println("0. Thoat");
+            System.out.println("\n=== QUẢN LÝ HÀNG HÓA ===");
+            System.out.println("1. Thêm hàng hóa");
+            System.out.println("2. Xem danh sách");
+            System.out.println("3. Thống kê tồn kho và thuế VAT");
+            System.out.println("4. Đánh giá khả năng bán");
+            System.out.println("0. Thoát");
             try {
-                choice = readInt("Chon: ");
+                choice = readInt("Chọn: ");
                 switch (choice) {
                     case 1:
                         Goods goods = inputGoods();
-                        System.out.println(ds.add(goods) ? "Them thanh cong" : "Trung ma hoac danh sach day");
+                        System.out.println(ds.add(goods) ? "Thêm thành công" : "Trùng mã hoặc danh sách đầy");
                         break;
                     case 2: ds.showAll(); break;
                     case 3: ds.showSummary(); break;
                     case 4: ds.showEvaluation(); break;
-                    case 0: System.out.println("Tam biet!"); break;
-                    default: System.out.println("Lua chon khong hop le");
+                    case 0: System.out.println("Tạm biệt!"); break;
+                    default: System.out.println("Lựa chọn không hợp lệ");
                 }
             } catch (IllegalArgumentException e) {
-                System.out.println("Du lieu sai: " + e.getMessage());
+                System.out.println("Dữ liệu sai: " + e.getMessage());
             } catch (java.util.NoSuchElementException e) {
-                System.out.println("\nDa het du lieu nhap. Tam biet!");
+                System.out.println("\nĐã hết dữ liệu nhập. Tạm biệt!");
                 return;
             }
         } while (choice != 0);
     }
 
     static Goods inputGoods() {
-        System.out.println("1. Food | 2. Electronics | 3. Crockery");
-        int type = readInt("Loai hang: ");
-        if (type < 1 || type > 3) throw new IllegalArgumentException("Loai hang khong hop le");
-        String code = readText("Ma hang: ");
-        String name = readText("Ten hang: ");
-        int quantity = readInt("So luong: ");
-        double price = readDouble("Don gia: ");
+        System.out.println("1. Thực phẩm | 2. Điện máy | 3. Sành sứ");
+        int type = readInt("Loại hàng: ");
+        if (type < 1 || type > 3) throw new IllegalArgumentException("Loại hàng không hợp lệ");
+        String code = readText("Mã hàng: ");
+        String name = readText("Tên hàng: ");
+        int quantity = readInt("Số lượng: ");
+        double price = readDouble("Đơn giá: ");
 
         if (type == 1) {
-            LocalDate mfg = readDate("Ngay san xuat (yyyy-MM-dd): ");
-            LocalDate exp = readDate("Han su dung (yyyy-MM-dd): ");
-            String supplier = readText("Nha cung cap: ");
+            LocalDate mfg = readDate("Ngày sản xuất (yyyy-MM-dd): ");
+            LocalDate exp = readDate("Hạn sử dụng (yyyy-MM-dd): ");
+            String supplier = readText("Nhà cung cấp: ");
             return new Food(code, name, quantity, price, mfg, exp, supplier);
         } else if (type == 2) {
-            int warranty = readInt("Bao hanh (thang): ");
-            double power = readDouble("Cong suat kW: ");
+            int warranty = readInt("Bảo hành (tháng): ");
+            double power = readDouble("Công suất (kW): ");
             return new Electronics(code, name, quantity, price, warranty, power);
         } else {
-            String maker = readText("Nha san xuat: ");
-            LocalDate date = readDate("Ngay nhap kho (yyyy-MM-dd): ");
+            String maker = readText("Nhà sản xuất: ");
+            LocalDate date = readDate("Ngày nhập kho (yyyy-MM-dd): ");
             return new Crockery(code, name, quantity, price, maker, date);
         }
     }
@@ -69,7 +70,7 @@ public class Main {
     static int readInt(String message) {
         while (true) {
             try { return Integer.parseInt(readText(message)); }
-            catch (NumberFormatException e) { System.out.println("Vui long nhap so nguyen"); }
+            catch (NumberFormatException e) { System.out.println("Vui lòng nhập số nguyên"); }
         }
     }
 
@@ -80,7 +81,7 @@ public class Main {
                 if (!Double.isFinite(value)) throw new NumberFormatException();
                 return value;
             } catch (NumberFormatException e) {
-                System.out.println("Vui long nhap so huu han");
+                System.out.println("Vui lòng nhập số hữu hạn");
             }
         }
     }
@@ -89,7 +90,7 @@ public class Main {
         while (true) {
             try { return LocalDate.parse(readText(message)); }
             catch (java.time.format.DateTimeParseException e) {
-                System.out.println("Ngay sai dinh dang, vd: 2026-10-20");
+                System.out.println("Ngày sai định dạng, ví dụ: 2026-10-20");
             }
         }
     }

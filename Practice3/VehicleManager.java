@@ -6,15 +6,15 @@ public class VehicleManager {
 
     public boolean add(Vehicle vehicle) {
         if (vehicle == null) {
-            throw new IllegalArgumentException("Phuong tien khong duoc null");
+            throw new IllegalArgumentException("Phương tiện không được null");
         }
         if (findByNumber(vehicle.getNumber()) != null) return false;
         for (Vehicle v : list) {
             if (v.getOwner().getIdentityNumber().equals(vehicle.getOwner().getIdentityNumber())) {
                 if (!v.getOwner().sameInfo(vehicle.getOwner())) {
-                    throw new IllegalArgumentException("CMND/CCCD da thuoc chu xe khac");
+                    throw new IllegalArgumentException("CMND/CCCD đã thuộc chủ xe khác");
                 }
-                vehicle.setOwner(v.getOwner()); // cung mot nguoi co the so huu nhieu xe
+                vehicle.setOwner(v.getOwner()); // Một người có thể sở hữu nhiều xe.
                 break;
             }
         }
@@ -40,7 +40,7 @@ public class VehicleManager {
                 found = true;
             }
         }
-        if (!found) System.out.println("Khong tim thay xe cua chu so huu nay");
+        if (!found) System.out.println("Không tìm thấy xe của chủ sở hữu này");
     }
 
     public int deleteByManufacturer(String manufacturer) {
@@ -49,7 +49,7 @@ public class VehicleManager {
         for (int i = 0; i < list.size(); i++) {
             if (list.get(i).getManufacturer().equalsIgnoreCase(manufacturer)) {
                 list.remove(i);
-                i--; // sau khi xoa, cac phan tu dich ve truoc 1 vi tri
+                i--; // Sau khi xóa, các phần tử dịch về trước một vị trí.
                 deleted++;
             }
         }
@@ -71,7 +71,7 @@ public class VehicleManager {
             if (countByManufacturer(manufacturer) > max) max = countByManufacturer(manufacturer);
         }
         if (max == 0) {
-            System.out.println("Chua co xe");
+            System.out.println("Chưa có xe");
             return;
         }
         for (String manufacturer : manufacturers) {
@@ -82,7 +82,6 @@ public class VehicleManager {
     }
 
     public void showSortedByManufacturerCount() {
-        // Hieu yeu cau sap xep la sap xep cac hang theo so xe giam dan.
         String[] sorted = manufacturers.clone();
         for (int i = 0; i < sorted.length - 1; i++) {
             for (int j = i + 1; j < sorted.length; j++) {
@@ -103,7 +102,7 @@ public class VehicleManager {
     }
 
     public void showStatistics() {
-        String[] types = {"Car", "Motorcycle", "Truck"};
+        String[] types = {"Ô tô", "Xe máy", "Xe tải"};
         for (String type : types) {
             int count = 0;
             for (Vehicle v : list) {
@@ -114,7 +113,7 @@ public class VehicleManager {
     }
 
     public void showAll() {
-        if (list.isEmpty()) System.out.println("Chua co xe");
+        if (list.isEmpty()) System.out.println("Chưa có xe");
         for (Vehicle v : list) System.out.println(v);
     }
 }

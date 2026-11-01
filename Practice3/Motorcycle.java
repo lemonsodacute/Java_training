@@ -5,7 +5,7 @@ public class Motorcycle extends Vehicle {
                       Owner owner, double capacity) {
         super(number, manufacturer, year, color, owner);
         if (!Double.isFinite(capacity) || capacity < 0) {
-            throw new IllegalArgumentException("Dung tich phai la so huu han >= 0");
+            throw new IllegalArgumentException("Dung tích phải là số hữu hạn >= 0");
         }
         this.capacity = capacity;
     }
@@ -13,8 +13,8 @@ public class Motorcycle extends Vehicle {
     public double getCapacity() { return capacity; }
 
     @Override
-    public String getType() { return "Motorcycle"; }
+    public String getType() { return "Xe máy"; }
 
     @Override
-    public String getExtraInfo() { return "Dung tich: " + capacity + " cc"; }
+    public String getExtraInfo() { return "Dung tích: " + capacity + " cc"; }
 }

@@ -1,4 +1,3 @@
-// Lop cha cho 3 loai hang hoa
 public abstract class Goods {
     private String code;
     private String name;
@@ -7,10 +6,10 @@ public abstract class Goods {
 
     public Goods(String code, String name, int quantity, double unitPrice) {
         if (code == null || code.trim().isEmpty() || name == null || name.trim().isEmpty()) {
-            throw new IllegalArgumentException("Ma hang va ten hang khong duoc de trong");
+            throw new IllegalArgumentException("Mã hàng và tên hàng không được để trống");
         }
         if (quantity < 0 || !Double.isFinite(unitPrice) || unitPrice < 0) {
-            throw new IllegalArgumentException("So luong va don gia phai >= 0, don gia phai huu han");
+            throw new IllegalArgumentException("Số lượng và đơn giá phải >= 0, đơn giá phải hữu hạn");
         }
         this.code = code.trim();
         this.name = name.trim();
@@ -23,7 +22,7 @@ public abstract class Goods {
     public int getQuantity() { return quantity; }
     public double getUnitPrice() { return unitPrice; }
 
-    // Lop con se tu cai dat muc VAT va cach danh gia
+    // Lớp con xác định mức thuế VAT và cách đánh giá.
     public abstract double getVatRate();
     public abstract String evaluate();
     public abstract String getType();
@@ -34,7 +33,7 @@ public abstract class Goods {
 
     @Override
     public String toString() {
-        return code + " | " + name + " | SL: " + quantity
-                + " | Don gia: " + unitPrice + " | Loai: " + getType();
+        return code + " | " + name + " | Số lượng: " + quantity
+                + " | Đơn giá: " + unitPrice + " | Loại: " + getType();
     }
 }

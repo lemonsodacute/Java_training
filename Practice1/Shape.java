@@ -4,7 +4,7 @@ public class Shape {
 
     public Shape(double width, double height) {
         if (!Double.isFinite(width) || !Double.isFinite(height) || width <= 0 || height <= 0) {
-            throw new IllegalArgumentException("Kich thuoc phai la so huu han > 0");
+            throw new IllegalArgumentException("Kích thước phải là số hữu hạn > 0");
         }
         this.width = width;
         this.height = height;

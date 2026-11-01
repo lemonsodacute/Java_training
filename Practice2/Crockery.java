@@ -9,7 +9,7 @@ public class Crockery extends Goods {
                     String manufacturer, LocalDate arrivalDate) {
         super(code, name, quantity, unitPrice);
         if (manufacturer == null || manufacturer.trim().isEmpty() || arrivalDate == null) {
-            throw new IllegalArgumentException("Thieu nha san xuat hoac ngay nhap");
+            throw new IllegalArgumentException("Thiếu nhà sản xuất hoặc ngày nhập");
         }
         this.manufacturer = manufacturer.trim();
         this.arrivalDate = arrivalDate;
@@ -19,7 +19,7 @@ public class Crockery extends Goods {
     public LocalDate getArrivalDate() { return arrivalDate; }
 
     @Override
-    public String getType() { return "Crockery"; }
+    public String getType() { return "Sành sứ"; }
 
     @Override
     public double getVatRate() { return 0.10; }
@@ -28,13 +28,13 @@ public class Crockery extends Goods {
     public String evaluate() {
         long days = ChronoUnit.DAYS.between(arrivalDate, LocalDate.now());
         if (getQuantity() > 50 && days > 10) {
-            return "Ban cham (ton > 50 va luu kho > 10 ngay)";
+            return "Bán chậm (tồn > 50 và lưu kho > 10 ngày)";
         }
-        return "Chua danh gia";
+        return "Chưa đánh giá";
     }
 
     @Override
     public String toString() {
-        return super.toString() + " | NSX: " + manufacturer + " | Ngay nhap: " + arrivalDate;
+        return super.toString() + " | Nhà sản xuất: " + manufacturer + " | Ngày nhập: " + arrivalDate;
     }
 }
