@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="UTF-8"><title>Dang nhap</title><link rel="stylesheet" th:href="@{/css/style.css}"></head>
+<body><main class="card small"><h1>Đăng nhập</h1><p>Employee Management System</p>
+<p class="error" th:if="${param.error}">Sai tên đăng nhập hoặc mật khẩu.</p>
+<p class="ok" th:if="${param.logout}">Đã đăng xuất.</p>
+<p class="ok" th:if="${param.registered}">Đăng ký thành công, hãy đăng nhập.</p>
+<form th:action="@{/login}" method="post">
+<label>Tên đăng nhập<input name="username" required autofocus></label>
+<label>Mật khẩu<input name="password" type="password" required></label>
+<button type="submit">Đăng nhập</button></form>
+<p>Chưa có tài khoản? <a th:href="@{/register}">Đăng ký</a></p>
+<p class="help">Demo admin: admin / admin123 (chỉ dùng ở máy local).</p></main></body></html>

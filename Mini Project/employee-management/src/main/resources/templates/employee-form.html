@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="UTF-8"><title>Form nhan vien</title><link rel="stylesheet" th:href="@{/css/style.css}"></head>
+<body><main class="card small"><h1 th:text="${formId == null ? 'Thêm nhân viên' : 'Sửa nhân viên'}"></h1>
+<p class="error" th:if="${error}" th:text="${error}"></p>
+<form th:action="@{/employees/save}" th:object="${form}" method="post">
+<input type="hidden" name="id" th:if="${formId != null}" th:value="${formId}">
+<label>Họ tên<input th:field="*{name}" required></label><span class="error" th:errors="*{name}"></span>
+<label>Email<input th:field="*{email}" type="email" required></label><span class="error" th:errors="*{email}"></span>
+<label>Phòng ban<select th:field="*{departmentId}" required><option value="">-- Chọn phòng ban --</option>
+<option th:each="d : ${departments}" th:value="${d.id}" th:text="${d.name}"></option>
+</select></label><span class="error" th:errors="*{departmentId}"></span>
+<button type="submit">Lưu</button><a class="button secondary" th:href="@{/employees}">Hủy</a></form></main></body></html>
