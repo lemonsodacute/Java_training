@@ -2,6 +2,12 @@
 
 ## Module 1: Getting Started
 
-Ứng dụng Spring Boot cơ bản với API `GET /hello`.
+`GET /hello` trả về `Hello Spring Boot!`.
 
-Chạy bằng `mvn spring-boot:run`, sau đó mở http://localhost:8080/hello.
+## Module 2: Custom Bean & IoC
+
+Sử dụng `@Service`, `@Configuration`, `@Bean` và Constructor Injection.
+
+`GET /api/utils/code/12` trả về `EMP-0012`.
+
+Chạy bằng `mvn spring-boot:run`.
