@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="UTF-8"><title>Phong ban</title><link rel="stylesheet" th:href="@{/css/style.css}"></head>
+<body><main class="container"><header><h1>Phòng ban</h1><nav><a th:href="@{/employees}">Danh sách nhân viên</a></nav></header>
+<section class="card"><p class="error" th:if="${error}" th:text="${error}"></p>
+<form class="filters" th:if="${isAdmin}" th:action="@{/departments}" method="post">
+<label>Tên phòng ban<input name="name" placeholder="Ví dụ: IT" required></label>
+<button type="submit">Thêm phòng ban</button></form>
+<table><thead><tr><th>ID</th><th>Tên phòng ban</th></tr></thead><tbody>
+<tr th:each="d : ${departments}"><td th:text="${d.id}"></td><td th:text="${d.name}"></td></tr>
+<tr th:if="${#lists.isEmpty(departments)}"><td colspan="2">Chưa có phòng ban</td></tr>
+</tbody></table></section></main></body></html>

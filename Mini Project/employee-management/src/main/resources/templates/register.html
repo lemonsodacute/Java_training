@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="UTF-8"><title>Dang ky</title><link rel="stylesheet" th:href="@{/css/style.css}"></head>
+<body><main class="card small"><h1>Đăng ký tài khoản User</h1>
+<p class="error" th:if="${error}" th:text="${error}"></p>
+<form th:action="@{/register}" th:object="${form}" method="post">
+<label>Tên đăng nhập (3–50 ký tự)<input th:field="*{username}" required></label>
+<span class="error" th:errors="*{username}"></span>
+<label>Mật khẩu (ít nhất 6 ký tự)<input th:field="*{password}" type="password" required></label>
+<span class="error" th:errors="*{password}"></span>
+<button type="submit">Đăng ký</button></form>
+<a th:href="@{/login}">Quay lại đăng nhập</a></main></body></html>

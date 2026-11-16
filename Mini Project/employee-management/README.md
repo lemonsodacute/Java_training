@@ -1,18 +1,42 @@
 # Employee Management System
 
-## Module 1: Getting Started
+Mini project quản lý nhân viên bằng Spring Boot.
 
-`GET /hello` trả về `Hello Spring Boot!`.
+## Công nghệ
+- Java 21, Spring Boot 3.5.16, Maven
+- MySQL (Docker), Spring Data JPA
+- Spring Security, Thymeleaf
 
-## Module 2: Custom Bean & IoC
+## Nội dung thực hành
+- **Module 1:** Hello World API.
+- **Module 2:** Custom Bean, IoC, Dependency Injection.
+- **Module 3:** REST API với ArrayList.
+- **Module 4:** CRUD nhân viên bằng Spring Data JPA và MySQL.
 
-`GET /api/utils/code/12` trả về `EMP-0012`.
+## Chức năng
+- Đăng ký, đăng nhập, phân quyền Admin/User.
+- Thêm, sửa, xóa nhân viên.
+- Quản lý phòng ban.
+- Tìm kiếm nhân viên theo tên và phòng ban.
 
-## Module 3: REST API
+## Cách chạy
 
-Quản lý danh sách nhân viên bằng `ArrayList`.
+Khởi động MySQL:
 
-- `GET /api/demo/employees`
-- `POST /api/demo/employees`
+```powershell
+docker start employee-mysql
+```
 
-Dữ liệu được lưu tạm trong bộ nhớ. Chạy bằng `mvn spring-boot:run`.
+Chạy Spring Boot:
+
+```powershell
+$env:DB_PASSWORD="123456"
+mvn spring-boot:run
+```
+
+Truy cập: http://localhost:8080/login
+
+**Tài khoản Admin:** `admin` / `admin123`
+
+## Kiểm thử
+Sử dụng Postman để kiểm tra các API GET, POST, PUT, DELETE.
