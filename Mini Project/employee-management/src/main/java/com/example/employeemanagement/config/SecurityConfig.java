@@ -52,7 +52,7 @@ public class SecurityConfig {
     SecurityFilterChain webSecurity(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests(auth -> auth
                 .requestMatchers("/", "/hello", "/login", "/register", "/css/**", "/error").permitAll()
-                .requestMatchers("/employees/new", "/employees/edit/**").hasRole("ADMIN")
+                .requestMatchers("/employees/new", "/employees/add", "/employees/edit/**").hasRole("ADMIN")
                 .requestMatchers(HttpMethod.POST, "/employees/**", "/departments/**").hasRole("ADMIN")
                 .anyRequest().authenticated())
             .formLogin(form -> form.loginPage("/login").defaultSuccessUrl("/employees", true).permitAll())

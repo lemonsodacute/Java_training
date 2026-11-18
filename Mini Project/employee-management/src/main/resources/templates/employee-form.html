@@ -10,4 +10,4 @@
 <label>Phòng ban<select th:field="*{departmentId}" required><option value="">-- Chọn phòng ban --</option>
 <option th:each="d : ${departments}" th:value="${d.id}" th:text="${d.name}"></option>
 </select></label><span class="error" th:errors="*{departmentId}"></span>
-<button type="submit">Lưu</button><a class="button secondary" th:href="@{/employees}">Hủy</a></form></main></body></html>
+<button type="submit">Lưu</button><a class="button secondary" th:href="@{/employees/list}">Hủy</a></form></main></body></html>
