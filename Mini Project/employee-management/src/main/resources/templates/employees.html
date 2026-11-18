@@ -3,19 +3,19 @@
 <head><meta charset="UTF-8"><title>Danh sach nhan vien</title><link rel="stylesheet" th:href="@{/css/style.css}"></head>
 <body><main class="container">
 <header><div><h1>Quản lý nhân viên</h1><p>Xin chào, <strong th:text="${username}"></strong></p></div>
-<nav><a th:href="@{/employees}">Nhân viên</a><a th:href="@{/departments}">Phòng ban</a>
+<nav><a th:href="@{/employees/list}">Nhân viên</a><a th:href="@{/departments}">Phòng ban</a>
 <form th:action="@{/logout}" method="post"><button class="secondary" type="submit">Đăng xuất</button></form></nav></header>
-<section class="card"><form class="filters" th:action="@{/employees}" method="get">
+<section class="card"><form class="filters" th:action="@{/employees/list}" method="get">
 <label>Tìm theo tên<input name="name" th:value="${name}" placeholder="Ví dụ: An"></label>
 <label>Phòng ban<select name="departmentId"><option value="">Tất cả</option>
 <option th:each="d : ${departments}" th:value="${d.id}" th:text="${d.name}" th:selected="${d.id == departmentId}"></option>
 </select></label><button type="submit">Tìm kiếm</button>
-<a class="button" th:if="${isAdmin}" th:href="@{/employees/new}">+ Thêm nhân viên</a></form></section>
+<a class="button" th:if="${isAdmin}" th:href="@{/employees/add}">+ Thêm nhân viên</a></form></section>
 <section class="card"><table><thead><tr><th>ID</th><th>Họ tên</th><th>Email</th><th>Phòng ban</th><th th:if="${isAdmin}">Thao tác</th></tr></thead>
 <tbody><tr th:each="e : ${employees}"><td th:text="${e.id}"></td><td th:text="${e.name}"></td>
 <td th:text="${e.email}"></td><td th:text="${e.department.name}"></td>
 <td th:if="${isAdmin}"><a th:href="@{/employees/edit/{id}(id=${e.id})}">Sửa</a>
 <form class="inline" th:action="@{/employees/delete/{id}(id=${e.id})}" method="post" onsubmit="return confirm('Xóa nhân viên này?')">
 <button class="danger" type="submit">Xóa</button></form></td></tr>
-<tr th:if="${#lists.isEmpty(employees)}"><td colspan="5">Không có nhân viên</td></tr></tbody></table>
+<tr th:if="${#lists.isEmpty(employees)}"><td th:colspan="${isAdmin ? 5 : 4}">Không có nhân viên</td></tr></tbody></table>
 <p class="help">User xem danh sách; chỉ Admin được thêm/sửa/xóa.</p></section></main></body></html>

@@ -27,7 +27,7 @@ public class EmployeePageController {
         return authentication.getAuthorities().stream()
                 .anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"));
     }
-    @GetMapping("/employees")
+    @GetMapping({"/employees", "/employees/list"})
     public String list(@RequestParam(required = false) String name,
                        @RequestParam(required = false) Long departmentId,
                        Authentication authentication, Model model) {
@@ -43,7 +43,7 @@ public class EmployeePageController {
         model.addAttribute("departments", departments.findAll());
         model.addAttribute("formId", id);
     }
-    @GetMapping("/employees/new")
+    @GetMapping({"/employees/new", "/employees/add"})
     public String addForm(Model model) {
         model.addAttribute("form", new EmployeeForm());
         setupEmployeeForm(model, null);
@@ -67,7 +67,7 @@ public class EmployeePageController {
             try {
                 if (id == null) employees.create(form);
                 else employees.update(id, form);
-                return "redirect:/employees";
+                return "redirect:/employees/list";
             } catch (BadRequestException | ResourceNotFoundException ex) {
                 model.addAttribute("error", ex.getMessage());
             }
@@ -78,7 +78,7 @@ public class EmployeePageController {
     @PostMapping("/employees/delete/{id}")
     public String delete(@PathVariable Long id) {
         employees.delete(id);
-        return "redirect:/employees";
+        return "redirect:/employees/list";
     }
     @GetMapping("/departments")
     public String departments(Authentication authentication, Model model) {
