@@ -12,6 +12,7 @@ Mini project quản lý nhân viên bằng Spring Boot.
 - **Module 2:** Custom Bean, IoC, Dependency Injection.
 - **Module 3:** REST API với ArrayList.
 - **Module 4:** CRUD nhân viên bằng Spring Data JPA và MySQL.
+- **Module 5:** Bean Validation, BindingResult và Global Exception Handling (HTTP 400/404).
 
 ## Chức năng
 - Đăng ký, đăng nhập, phân quyền Admin/User.
@@ -40,3 +41,10 @@ Truy cập: http://localhost:8080/login
 
 ## Kiểm thử
 Sử dụng Postman để kiểm tra các API GET, POST, PUT, DELETE.
+## Module 5 - Validation & Exception Handling
+
+- Validate `name` không để trống, `email` đúng định dạng (tối đa 150 ký tự), và `departmentId` phải có.
+- API trả HTTP 400 với `{"error":"..."}` khi request sai hoặc JSON lỗi; HTTP 404 khi không tìm thấy nhân viên.
+- Form Thymeleaf dùng `@Valid` và `BindingResult` để hiển thị lỗi cạnh từng trường.
+- Kiểm thử API bằng `mvn test`; thử thêm nhân viên lỗi qua Postman với `POST /api/employees`.
+

@@ -8,6 +8,7 @@ public class EmployeeForm {
     private String name;
     @NotBlank(message = "Vui long nhap email")
     @Email(message = "Email khong hop le")
+    @Size(max = 150, message = "Email toi da 150 ky tu")
     private String email;
     @NotNull(message = "Vui long chon phong ban")
     private Long departmentId;
