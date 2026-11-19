@@ -80,3 +80,7 @@ Chạy PROD chỉ khi đã tạo database/schema và khai báo đầy đủ `DB_
 tài khoản và mật khẩu demo trong môi trường thật.
 
 Kiểm thử `mvn test`; đăng nhập Admin, thêm/sửa/xóa nhân viên và quan sát log trong terminal.
+
+## Module 8 - Advanced Spring Boot
+
+Đã thêm Actuator để xem health/metrics. API `GET /api/reports/employees/total` trả số nhân viên và lưu cache trong 1 phút, khi thêm hoặc xóa nhân viên sẽ xóa cache cũ. Scheduled task ghi `System running` ra console mỗi 30 giây.

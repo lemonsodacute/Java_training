@@ -8,6 +8,7 @@ import com.example.employeemanagement.model.Employee;
 import com.example.employeemanagement.repository.DepartmentRepository;
 import com.example.employeemanagement.repository.EmployeeRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.cache.annotation.CacheEvict;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,6 +36,7 @@ public class EmployeeService {
     public Employee get(Long id) {
         return employees.findById(id).orElseThrow(() -> new ResourceNotFoundException("Khong tim thay nhan vien ID " + id));
     }
+    @CacheEvict(cacheNames = "employeeTotal", allEntries = true)
     @Transactional
     public Employee create(EmployeeForm form) {
         if (employees.existsByEmailIgnoreCase(form.getEmail().trim()))
@@ -55,6 +57,7 @@ public class EmployeeService {
         log.info("Sua nhan vien id={}", saved.getId());
         return saved;
     }
+    @CacheEvict(cacheNames = "employeeTotal", allEntries = true)
     @Transactional
     public void delete(Long id) {
         Employee employee = get(id);
