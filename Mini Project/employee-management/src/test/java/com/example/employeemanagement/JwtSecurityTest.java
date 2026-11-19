@@ -34,7 +34,7 @@ class JwtSecurityTest {
         Jwt jwt = config.jwtDecoder(key).decode(token);
         assertEquals("student", jwt.getSubject());
         assertEquals(List.of("ROLE_USER"), jwt.getClaimAsStringList("roles"));
-        assertEquals("employee-management", jwt.getIssuer().toString());
+        assertEquals("employee-management", jwt.getClaimAsString("iss"));
         assertTrue(jwt.getExpiresAt().isAfter(jwt.getIssuedAt()));
     }
 
