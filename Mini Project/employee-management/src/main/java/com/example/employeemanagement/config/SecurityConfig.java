@@ -40,7 +40,7 @@ public class SecurityConfig {
         http.securityMatcher("/api/**")
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/api/demo/**", "/api/utils/**").permitAll()
-                .requestMatchers(HttpMethod.GET, "/api/employees/**", "/api/departments/**").authenticated()
+                .requestMatchers(HttpMethod.GET, "/api/employees/**", "/api/departments/**", "/api/reports/**").authenticated()
                 .anyRequest().hasRole("ADMIN"))
             .httpBasic(Customizer.withDefaults())
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
@@ -51,7 +51,8 @@ public class SecurityConfig {
     @Bean
     SecurityFilterChain webSecurity(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests(auth -> auth
-                .requestMatchers("/", "/hello", "/login", "/register", "/css/**", "/error").permitAll()
+                .requestMatchers("/", "/hello", "/login", "/register", "/css/**", "/error", "/actuator/health").permitAll()
+                .requestMatchers("/actuator/metrics", "/actuator/metrics/**").hasRole("ADMIN")
                 .requestMatchers("/employees/new", "/employees/add", "/employees/edit/**").hasRole("ADMIN")
                 .requestMatchers(HttpMethod.POST, "/employees/**", "/departments/**").hasRole("ADMIN")
                 .anyRequest().authenticated())

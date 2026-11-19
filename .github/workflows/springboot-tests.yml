@@ -1,9 +1,12 @@
-name: Test Spring Boot modules 5-7
+name: Test Spring Boot modules 5-10
 
 on:
   push:
     branches:
       - springboot/module-7
+      - springboot/module-8
+      - springboot/module-9
+      - springboot/module-10
   workflow_dispatch:
 
 permissions:
