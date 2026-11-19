@@ -88,4 +88,14 @@ jobs:
           TOKEN=$(curl -fsS -H 'Content-Type: application/json' -d '{"username":"admin","password":"admin123"}' http://localhost:8080/api/auth/login | python3 -c 'import json,sys;print(json.load(sys.stdin)["accessToken"])')
           test -n "$TOKEN"
           test "$(curl -s -o /tmp/jwt.json -w '%{http_code}' -H "Authorization: Bearer $TOKEN" http://localhost:8080/api/employees)" = "200"
+          if [ "$GITHUB_REF_NAME" = "springboot/module-10" ]; then
+            # Module 10: tao 1 phong ban va 1 nhan vien de kiem tra @Query
+            DEPARTMENT=$(curl -fsS -u admin:admin123 -H 'Content-Type: application/json' -d '{"name":"IT"}' http://localhost:8080/api/departments)
+            DEP_ID=$(printf '%s' "$DEPARTMENT" | python3 -c 'import json,sys;print(json.load(sys.stdin)["id"])')
+            test -n "$DEP_ID"
+            EMP_BODY=$(printf '{"name":"Nguyen Van An","email":"an@example.com","departmentId":%s}' "$DEP_ID")
+            test "$(curl -s -o /tmp/created.json -w '%{http_code}' -u admin:admin123 -H 'Content-Type: application/json' -d "$EMP_BODY" http://localhost:8080/api/employees)" = "201"
+            curl -fsS -u admin:admin123 http://localhost:8080/api/reports/employees/statistics > /tmp/statistics.json
+            python3 -c 'import json; s=json.load(open("/tmp/statistics.json")); assert s["totalEmployees"]==1, s; assert any(d["departmentName"]=="IT" and d["totalEmployees"]==1 for d in s["departments"]), s'
+          fi
           echo "API smoke tests passed."

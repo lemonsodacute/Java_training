@@ -88,3 +88,7 @@ Kiểm thử `mvn test`; đăng nhập Admin, thêm/sửa/xóa nhân viên và q
 ## Module 9 - Spring Security Basics
 
 Giữ đăng ký và đăng nhập qua web, User chỉ được xem còn Admin được thêm/sửa/xóa. API có thể dùng Basic Auth hoặc JWT. Gửi POST `/api/auth/login` với JSON `{"username":"admin","password":"admin123"}` để nhận accessToken, sau đó đặt header `Authorization: Bearer <token>` khi gọi API. Token có thời hạn 1 giờ. Ở môi trường dev, nếu chưa đặt `JWT_SECRET_BASE64` thì khóa được tạo mới khi chạy ứng dụng; môi trường prod bắt buộc đặt khóa Base64 dài ít nhất 32 byte.
+
+## Module 10 - Reporting & Analytics
+
+Đã bổ sung API `GET /api/reports/employees/statistics` để xem tổng số nhân viên và số nhân viên của từng phòng ban. Dùng `@Query` để đếm dữ liệu từ MySQL, các phòng ban chưa có nhân viên vẫn được hiển thị với số lượng bằng 0. Truy cập `/employees/statistics` sau khi đăng nhập để xem bảng thống kê trên Thymeleaf.
