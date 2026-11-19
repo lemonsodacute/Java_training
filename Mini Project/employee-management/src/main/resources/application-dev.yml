@@ -1,0 +1,16 @@
+spring:
+  datasource:
+    url: '${DB_URL:jdbc:mysql://localhost:3306/employee_management?useSSL=false&serverTimezone=Asia/Ho_Chi_Minh&allowPublicKeyRetrieval=true}'
+    username: '${DB_USERNAME:root}'
+    password: '${DB_PASSWORD:}'
+  jpa:
+    hibernate:
+      ddl-auto: update
+    open-in-view: false
+    show-sql: true
+  thymeleaf:
+    cache: false
+
+logging:
+  level:
+    com.example.employeemanagement: DEBUG

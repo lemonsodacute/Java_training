@@ -8,11 +8,14 @@ import com.example.employeemanagement.model.Employee;
 import com.example.employeemanagement.repository.DepartmentRepository;
 import com.example.employeemanagement.repository.EmployeeRepository;
 import org.springframework.stereotype.Service;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
 public class EmployeeService {
+    private static final Logger log = LoggerFactory.getLogger(EmployeeService.class);
     private final EmployeeRepository employees;
     private final DepartmentRepository departments;
     private final UtilityService utils;
@@ -38,7 +41,9 @@ public class EmployeeService {
             throw new BadRequestException("Email da ton tai");
         Employee employee = new Employee();
         fill(employee, form);
-        return employees.save(employee);
+        Employee saved = employees.save(employee);
+        log.info("Them nhan vien id={}", saved.getId());
+        return saved;
     }
     @Transactional
     public Employee update(Long id, EmployeeForm form) {
@@ -46,12 +51,15 @@ public class EmployeeService {
         if (employees.existsByEmailIgnoreCaseAndIdNot(form.getEmail().trim(), id))
             throw new BadRequestException("Email da ton tai");
         fill(employee, form);
-        return employees.save(employee);
+        Employee saved = employees.save(employee);
+        log.info("Sua nhan vien id={}", saved.getId());
+        return saved;
     }
     @Transactional
     public void delete(Long id) {
         Employee employee = get(id);
         employees.delete(employee);
+        log.info("Xoa nhan vien id={}", id);
     }
     private void fill(Employee employee, EmployeeForm form) {
         Department dep = departments.findById(form.getDepartmentId())

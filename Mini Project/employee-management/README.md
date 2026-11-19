@@ -14,6 +14,7 @@ Mini project quản lý nhân viên bằng Spring Boot.
 - **Module 4:** CRUD nhân viên bằng Spring Data JPA và MySQL.
 - **Module 5:** Bean Validation, BindingResult và Global Exception Handling (HTTP 400/404).
 - **Module 6:** Spring MVC + Thymeleaf: trang danh sách, form thêm/sửa và tìm kiếm nhân viên.
+- **Module 7:** Logging SLF4J + Logback, cấu hình riêng cho dev/prod.
 
 ## Chức năng
 - Đăng ký, đăng nhập, phân quyền Admin/User.
@@ -58,3 +59,24 @@ Sử dụng Postman để kiểm tra các API GET, POST, PUT, DELETE.
 - Vẫn giữ đường dẫn cũ `/employees`, `/employees/new` để tương thích với bài cũ.
 - Truy cập `http://localhost:8080/employees/list` sau khi đăng nhập.
 
+
+## Module 7 - Logging & Profiles
+
+- Thao tác thêm, sửa, xóa nhân viên ghi log qua SLF4J; Logback xuất log ra console.
+- `application.properties`: cấu hình dùng chung, mặc định profile `dev`.
+- `application-dev.yml`: MySQL localhost, `ddl-auto=update`, SQL log bật.
+- `application-prod.yml`: đọc DB từ biến môi trường bắt buộc, `ddl-auto=validate`, tắt SQL log.
+
+Chạy môi trường DEV (PowerShell):
+
+```powershell
+$env:SPRING_PROFILES_ACTIVE="dev"
+$env:DB_PASSWORD="mat_khau_mysql_cua_ban"
+mvn spring-boot:run
+```
+
+Chạy PROD chỉ khi đã tạo database/schema và khai báo đầy đủ `DB_URL`,
+`DB_USERNAME`, `DB_PASSWORD`, `ADMIN_USERNAME`, `ADMIN_PASSWORD`. Không dùng
+tài khoản và mật khẩu demo trong môi trường thật.
+
+Kiểm thử `mvn test`; đăng nhập Admin, thêm/sửa/xóa nhân viên và quan sát log trong terminal.

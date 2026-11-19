@@ -1,0 +1,76 @@
+name: Test Spring Boot modules 5-7
+
+on:
+  push:
+    branches:
+      - springboot/module-7
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  unit-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+          cache: maven
+          cache-dependency-path: 'Mini Project/employee-management/pom.xml'
+      - name: Run JUnit and MockMvc tests
+        run: mvn -B -ntp -f "Mini Project/employee-management/pom.xml" test
+
+  api-smoke-tests:
+    runs-on: ubuntu-latest
+    services:
+      mysql:
+        image: mysql:8.4
+        env:
+          MYSQL_ROOT_PASSWORD: test123456
+          MYSQL_DATABASE: employee_management
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping -h 127.0.0.1 -uroot -ptest123456"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+          cache: maven
+          cache-dependency-path: 'Mini Project/employee-management/pom.xml'
+      - name: Start application and test API endpoints
+        env:
+          SPRING_PROFILES_ACTIVE: dev
+          DB_URL: jdbc:mysql://127.0.0.1:3306/employee_management
+          DB_USERNAME: root
+          DB_PASSWORD: test123456
+        shell: bash
+        run: |
+          set -euo pipefail
+          mvn -B -ntp -f "Mini Project/employee-management/pom.xml" -DskipTests spring-boot:run > /tmp/springboot.log 2>&1 &
+          pid=$!
+          trap 'kill "$pid" 2>/dev/null || true; tail -n 60 /tmp/springboot.log' EXIT
+          ready=0
+          for i in {1..90}; do
+            if curl -fsS http://localhost:8080/hello >/dev/null; then ready=1; break; fi
+            if ! kill -0 "$pid" 2>/dev/null; then break; fi
+            sleep 2
+          done
+          if [ "$ready" -ne 1 ]; then echo "Application failed to start"; exit 1; fi
+          test "$(curl -fsS http://localhost:8080/hello)" = "Hello Spring Boot!"
+          test "$(curl -fsS http://localhost:8080/api/utils/code/12)" = "EMP-0012"
+          test "$(curl -s -o /tmp/employees.json -w '%{http_code}' -u admin:admin123 http://localhost:8080/api/employees)" = "200"
+          test "$(curl -s -o /tmp/bad.json -w '%{http_code}' -u admin:admin123 -H 'Content-Type: application/json' -d '{"name":" ","email":"wrong-email","departmentId":null}' http://localhost:8080/api/employees)" = "400"
+          grep -q 'error' /tmp/bad.json
+          test "$(curl -s -o /tmp/notfound.json -w '%{http_code}' -u admin:admin123 http://localhost:8080/api/employees/999999)" = "404"
+          test "$(curl -s -o /tmp/malformed.json -w '%{http_code}' -u admin:admin123 -H 'Content-Type: application/json' -d '{not valid json}' http://localhost:8080/api/employees)" = "400"
+          test "$(curl -s -o /tmp/login.html -w '%{http_code}' http://localhost:8080/login)" = "200"
+          echo "API smoke tests passed."
