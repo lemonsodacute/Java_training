@@ -3,7 +3,7 @@
 <head><meta charset="UTF-8"><title>Danh sach nhan vien</title><link rel="stylesheet" th:href="@{/css/style.css}"></head>
 <body><main class="container">
 <header><div><h1>Quản lý nhân viên</h1><p>Xin chào, <strong th:text="${username}"></strong></p></div>
-<nav><a th:href="@{/employees/list}">Nhân viên</a><a th:href="@{/departments}">Phòng ban</a>
+<nav><a th:href="@{/employees/list}">Nhân viên</a><a th:href="@{/departments}">Phòng ban</a><a th:href="@{/employees/statistics}">Thống kê</a>
 <form th:action="@{/logout}" method="post"><button class="secondary" type="submit">Đăng xuất</button></form></nav></header>
 <section class="card"><form class="filters" th:action="@{/employees/list}" method="get">
 <label>Tìm theo tên<input name="name" th:value="${name}" placeholder="Ví dụ: An"></label>
