@@ -70,7 +70,14 @@ jobs:
           if [ "$ready" -ne 1 ]; then echo "Application failed to start"; exit 1; fi
           test "$(curl -fsS http://localhost:8080/hello)" = "Hello Spring Boot!"
           test "$(curl -fsS http://localhost:8080/api/utils/code/12)" = "EMP-0012"
-          test "$(curl -s -o /tmp/employees.json -w '%{http_code}' -u admin:admin123 http://localhost:8080/api/employees)" = "200"
+          # Cho tai khoan Admin demo duoc tao xong truoc khi bat dau test
+          admin_ready=0
+          for i in {1..30}; do
+            status=$(curl -s -o /tmp/employees.json -w '%{http_code}' -u admin:admin123 http://localhost:8080/api/employees)
+            if [ "$status" = "200" ]; then admin_ready=1; break; fi
+            sleep 1
+          done
+          test "$admin_ready" = "1"
           test "$(curl -s -o /tmp/bad.json -w '%{http_code}' -u admin:admin123 -H 'Content-Type: application/json' -d '{"name":" ","email":"wrong-email","departmentId":null}' http://localhost:8080/api/employees)" = "400"
           grep -q 'error' /tmp/bad.json
           test "$(curl -s -o /tmp/notfound.json -w '%{http_code}' -u admin:admin123 http://localhost:8080/api/employees/999999)" = "404"
