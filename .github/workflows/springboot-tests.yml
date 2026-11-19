@@ -76,4 +76,9 @@ jobs:
           test "$(curl -s -o /tmp/notfound.json -w '%{http_code}' -u admin:admin123 http://localhost:8080/api/employees/999999)" = "404"
           test "$(curl -s -o /tmp/malformed.json -w '%{http_code}' -u admin:admin123 -H 'Content-Type: application/json' -d '{not valid json}' http://localhost:8080/api/employees)" = "400"
           test "$(curl -s -o /tmp/login.html -w '%{http_code}' http://localhost:8080/login)" = "200"
+          # Module 9: JWT login va token Bearer tren REST API
+          test "$(curl -s -o /tmp/wrongpass.json -w '%{http_code}' -H 'Content-Type: application/json' -d '{"username":"admin","password":"wrong"}' http://localhost:8080/api/auth/login)" = "401"
+          TOKEN=$(curl -fsS -H 'Content-Type: application/json' -d '{"username":"admin","password":"admin123"}' http://localhost:8080/api/auth/login | python3 -c 'import json,sys;print(json.load(sys.stdin)["accessToken"])')
+          test -n "$TOKEN"
+          test "$(curl -s -o /tmp/jwt.json -w '%{http_code}' -H "Authorization: Bearer $TOKEN" http://localhost:8080/api/employees)" = "200"
           echo "API smoke tests passed."

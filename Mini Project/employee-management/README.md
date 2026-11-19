@@ -84,3 +84,7 @@ Kiểm thử `mvn test`; đăng nhập Admin, thêm/sửa/xóa nhân viên và q
 ## Module 8 - Advanced Spring Boot
 
 Đã thêm Actuator để xem health/metrics. API `GET /api/reports/employees/total` trả số nhân viên và lưu cache trong 1 phút, khi thêm hoặc xóa nhân viên sẽ xóa cache cũ. Scheduled task ghi `System running` ra console mỗi 30 giây.
+
+## Module 9 - Spring Security Basics
+
+Giữ đăng ký và đăng nhập qua web, User chỉ được xem còn Admin được thêm/sửa/xóa. API có thể dùng Basic Auth hoặc JWT. Gửi POST `/api/auth/login` với JSON `{"username":"admin","password":"admin123"}` để nhận accessToken, sau đó đặt header `Authorization: Bearer <token>` khi gọi API. Token có thời hạn 1 giờ. Ở môi trường dev, nếu chưa đặt `JWT_SECRET_BASE64` thì khóa được tạo mới khi chạy ứng dụng; môi trường prod bắt buộc đặt khóa Base64 dài ít nhất 32 byte.
